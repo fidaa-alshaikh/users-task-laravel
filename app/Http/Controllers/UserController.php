@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\User;
+use App\Models\State;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -114,4 +117,37 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
     }
+
+    /**
+     * Display a countries of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCountries()
+    {
+        return Country::get(["id","name"]);
+    }
+
+    /**
+     * Display a states of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getStates(Request $request)
+    {
+        return State::where('country_id', $request->country_id)->get(["id","name"]);
+    }
+
+    /**
+     * Display a cities of the resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getCities(Request $request)
+    {
+        return City::where('state_id', $request->state_id)->get(["id","name"]);
+        // return response()->json($data);
+    }
+
+
 }

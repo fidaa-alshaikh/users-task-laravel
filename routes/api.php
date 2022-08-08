@@ -26,6 +26,10 @@ Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+// User address
+
+
 });
 
 //Public routes
@@ -33,4 +37,6 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'store']);
 
-
+Route::get('/countries', [UserController::class, 'getCountries']);
+Route::post('/states', [UserController::class, 'getStates']);
+Route::post('/cities', [UserController::class, 'getCities']);
