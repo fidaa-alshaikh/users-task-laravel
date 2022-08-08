@@ -29,8 +29,8 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']);
 });
 
 //Public routes
-Route::post('/register', [AuthController::class, 'store']);
-Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'store']);
 
 

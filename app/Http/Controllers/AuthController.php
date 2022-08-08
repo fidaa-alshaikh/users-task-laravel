@@ -22,23 +22,10 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed'
         ]);
         $formFields['password'] = bcrypt($formFields['password']);
-        $formFields['city_id'] = $request->city_id?? 0;
-        $formFields['street'] = $request->street;
-        if ($request->hasFile('file')) {
-            $formFields['image_name'] = $request->file('file')->store('users-images', 'public');
-        }
 
         $user = User::create($formFields);
-        if($user){
-        //Create token
-        if(auth()->check()){
-            $response = [
-                'user' => $user,
-                'status' => true,
-                'message' => 'User created successfully.'
-            ];
-        }else{
-            $token = $user->createToken('myAppToken')->plainTextToken;
+        if ($user) {
+        $token = $user->createToken('myAppToken')->plainTextToken;
 
             //auth()->login($user);
             $response = [
@@ -47,16 +34,13 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'User created successfully.'
             ];
+            return response($response, 201);
         }
-
-        return response($response, 201);
-    }
-    $response = [
-        'status' => false,
-        'message' => 'failed to create user.'
-    ];
-    return response($response, 401);
-
+        $response = [
+            'status' => false,
+            'message' => 'failed to create user.'
+        ];
+        return response($response, 401);
     }
 
     /**
@@ -105,5 +89,4 @@ class AuthController extends Controller
         ];
         return response($response, 201);
     }
-
 }

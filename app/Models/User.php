@@ -12,6 +12,13 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // public function stores()
+    // {
+    //     return User::leftJoin('city', 'user.city_id', '=', 'city.id')
+    //         ->leftJoin('state', 'city.state_id', '=', 'state.id')
+    //         ->leftJoin('country', 'state.country_id', '=', 'country.id');
+    // }
+
     /**
      * The attributes that are mass assignable.
      *
