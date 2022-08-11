@@ -87,7 +87,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id=null)
     {
         $formFields = $request->validate([
             'name' => 'required|min:3',
@@ -101,7 +101,7 @@ class UserController extends Controller
         if ($request->hasFile('file')) {
             $formFields['image_name'] = $request->file('file')->store('users-images', 'public');
         }
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id? $id : auth()->user()->id);
         $user->update($formFields);
         return $user;
     }
@@ -114,8 +114,21 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        $user = User::find($id);
+        if($user){
+            $user->delete();
+            $response = [
+                'status' => true,
+                'message' => 'User deleted successfully.'
+            ];
+            return response($response, 201);
+        }
+        $response = [
+            'status' => false,
+            'message' => 'Failed to delete user.'
+        ];
+        return response($response, 401);
+
     }
 
     /**

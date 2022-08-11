@@ -16,21 +16,21 @@ class CreateCountriesStatesCitiesTables extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         Schema::create('states', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignId('country_id')->constrained()->onDelete('cascade'); // delete state when country gone
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignId('state_id')->constrained()->onDelete('cascade'); // delete city when state gone
-            $table->timestamps();
+            // $table->timestamps();
         });  
 
 
