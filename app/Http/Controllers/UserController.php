@@ -18,12 +18,15 @@ class UserController extends Controller
     public function index()
     {
         //
-        return User::select('users.*', 'cities.name as city_name', 
-        'states.name as states_name', 'countries.name as country_name')
-            ->leftJoin('cities', 'users.city_id', '=', 'cities.id')
-            ->leftJoin('states', 'cities.state_id', '=', 'states.id')
-            ->leftJoin('countries', 'states.country_id', '=', 'countries.id')
-            ->latest()->paginate(4);
+        // return User::select('users.*', 'cities.name as city_name', 
+        // 'states.name as states_name', 'countries.name as country_name')
+        //     ->leftJoin('cities', 'users.city_id', '=', 'cities.id')
+        //     ->leftJoin('states', 'cities.state_id', '=', 'states.id')
+        //     ->leftJoin('countries', 'states.country_id', '=', 'countries.id')
+        //     ->latest()->paginate(4);
+
+        //By Eloquent Relationships
+        return (new User)->allUsersData()->latest()->paginate(4);
     }
 
 
@@ -72,12 +75,17 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return User::select('users.*', 'cities.name as city_name',
-        'states.name as states_name', 'countries.name as country_name')
-            ->leftJoin('cities', 'users.city_id', '=', 'cities.id')
-            ->leftJoin('states', 'cities.state_id', '=', 'states.id')
-            ->leftJoin('countries', 'states.country_id', '=', 'countries.id')
-            ->findOrFail($id);
+        //Inside Controller
+        // return User::select('users.*', 'cities.name as city_name',
+        // 'states.name as states_name', 'countries.name as country_name')
+        //     ->leftJoin('cities', 'users.city_id', '=', 'cities.id')
+        //     ->leftJoin('states', 'cities.state_id', '=', 'states.id')
+        //     ->leftJoin('countries', 'states.country_id', '=', 'countries.id')
+        //     ->findOrFail($id);
+
+        //By Eloquent Relationships
+        return (new User)->allUsersData()->findOrFail($id);
+
     }
 
     /**
@@ -148,7 +156,11 @@ class UserController extends Controller
      */
     public function getStates(Request $request)
     {
-        return State::where('country_id', $request->country_id)->get(["id","name"]);
+        //Inside Controller
+        //return State::where('country_id', $request->country_id)->get(["id","name"]);
+
+        //By Eloquent Relationships
+        return Country::find($request->country_id)->states()->get(["id","name"]);
     }
 
     /**
@@ -158,7 +170,11 @@ class UserController extends Controller
      */
     public function getCities(Request $request)
     {
-        return City::where('state_id', $request->state_id)->get(["id","name"]);
+        //Inside Controller
+        //return City::where('state_id', $request->state_id)->get(["id","name"]);
+
+        //By Eloquent Relationships
+        return State::find($request->state_id)->cities()->get(["id","name"]);
         // return response()->json($data);
     }
 

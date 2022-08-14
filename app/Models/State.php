@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class State extends Model
 {
     use HasFactory;
-    // public function cities(){
-    //     return $this->hasMany(City::class, 'state_id');
-    // }
+    
+    public function cities(){
+        return $this->hasMany(City::class, 'state_id');
+    }
 
-    // public function state(){
-    //     return $this->belongsTo(Country::class, 'state_id');
-
-    // }
+    public function countries(){
+        return $this->belongsTo(Country::class, 'country_id');
+    }
 }

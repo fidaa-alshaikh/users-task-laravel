@@ -9,8 +9,13 @@ class City extends Model
 {
     use HasFactory;
 
-    // public function city(){
-    //     return $this->belongsTo(State::class, 'city_id');
+    public function state(){
+        return $this->belongsTo(State::class, 'state_id');
 
+    }
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'city_id');
     // }
 }

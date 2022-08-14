@@ -12,11 +12,19 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // public function stores()
+    // get all users attributes
+    public function allUsersData()
+    {
+        return User::select('users.*', 'cities.name as city_name', 
+        'states.name as states_name', 'countries.name as country_name')
+            ->leftJoin('cities', 'users.city_id', '=', 'cities.id')
+            ->leftJoin('states', 'cities.state_id', '=', 'states.id')
+            ->leftJoin('countries', 'states.country_id', '=', 'countries.id');
+    }
+
+    // public function city()
     // {
-    //     return User::leftJoin('city', 'user.city_id', '=', 'city.id')
-    //         ->leftJoin('state', 'city.state_id', '=', 'state.id')
-    //         ->leftJoin('country', 'state.country_id', '=', 'country.id');
+    //     return $this->hasOne(City::class, 'id', 'city_id');
     // }
 
     /**
